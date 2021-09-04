@@ -72,9 +72,11 @@ void	create_map(char *map, t_map *map_s)
 	check_first_and_last_line(line, map_s, 1);
 	while (k > 0)
 	{
+		ft_lstadd_back(&map_s->map_line, ft_lstnew((void*)line));
 		k = get_next_line(fd, &line);
 		check_map_line(line, map_s);
 	}
+	ft_lstadd_back(&map_s->map_line, ft_lstnew((void*)line));
 	check_first_and_last_line(line, map_s, 2);
 	if (!map_s->C || !map_s->E || map_s->P != 1)
 		err_exit("Invalid map. Haven't Exit/Players/Coin", ERR_MAP);

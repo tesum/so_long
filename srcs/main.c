@@ -8,6 +8,9 @@ int main(int argc, char **argv)
 	{
 		map = malloc(sizeof(t_map));
 		create_map(argv[1], map);
+		print_map(map);
 	}
+	else
+		err_exit("Invalid args. Insert filename", ERR_ARGS);
 	return 0;
 }
