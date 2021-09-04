@@ -3,7 +3,7 @@
 void	print_img(t_map *map, char *file, void *img)
 {
 	img = mlx_xpm_file_to_image(map->mlx, file, &map->width, &map->height);
-	mlx_put_image_to_window(map->mlx, map->win, img, map->x * 40, map->y * 40);
+	mlx_put_image_to_window(map->mlx, map->win, img, map->x * 32, map->y * 32);
 
 }
 
@@ -19,26 +19,32 @@ t_list	*ch_line(t_list *head, int y)
 	return (line);
 }
 
-void	change_pos(t_map *map, int x, int y)
+void	change_pos(t_map *map, int x, int y, int key)
 {
-	if (((char *)ch_line(map->map_line, map->y+y)->content)[map->x+x] != '1')
+	char	*coord;
+
+	coord = ((char *)ch_line(map->map_line, map->y+y)->content);
+	if (coord[map->x+x] != '1')
 	{
-		if (((char *)ch_line(map->map_line, map->y+y)->content)[map->x+x] == 'E' && map->C == 0)
+		if (coord[map->x+x] == 'E' && map->C == 0)
 		{
 			mlx_destroy_window(map->mlx, map->win);
-			printf("U win\n");
+			printf("\033[0;32mYou are win\n");
 			exit(0);
 		}
-		if (((char *)ch_line(map->map_line, map->y+y)->content)[map->x+x] == 'C')
+		if (coord[map->x+x] == 'C')
 		{
 			map->C -= 1;
-			((char *)ch_line(map->map_line, map->y+y)->content)[map->x+x] = '0';
+			coord[map->x+x] = '0';
 		}
 		map->count += 1;
-		print_img(map, "texture/floor.xpm", map->floor->img);
+		if (((char *)ch_line(map->map_line, map->y)->content)[map->x] != 'E')
+			print_img(map, PATH_FLOOR, map->floor->img);
+		if (((char *)ch_line(map->map_line, map->y)->content)[map->x] == 'E')
+			print_img(map, PATH_DR_CLOSE, map->door->img);
 		map->x += x;
 		map->y += y;
-		print_img(map, "texture/player.xpm", map->player->img);
+		print_player(map, key);
 	}
 }
 
@@ -50,13 +56,13 @@ int	move(int keycode, t_map *img)
 		exit(0);
 	}
 	else if (keycode == 13)
-		change_pos(img, 0, -1);
+		change_pos(img, 0, -1, 0);
 	else if (keycode == 0)
-		change_pos(img, -1, 0);
+		change_pos(img, -1, 0, 1);
 	else if (keycode == 1)
-		change_pos(img, 0, 1);
+		change_pos(img, 0, 1, 0);
 	else if (keycode == 2)
-		change_pos(img, 1, 0);
+		change_pos(img, 1, 0, 0);
 	return (0);
 }
 

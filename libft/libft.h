@@ -3,24 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: demilan <demilan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/16 11:05:17 by demilan           #+#    #+#             */
-/*   Updated: 2021/05/28 00:05:18 by demilan          ###   ########.fr       */
+/*   Updated: 2021/09/04 19:52:21 by arsenijdroz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+
+# define BUFFER_SIZE 10000
+
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <fcntl.h>
+
 
 typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }				t_list;
+
+int		get_next_line(int fd, char **line);
+char	*ft_strjoin_gnl(char *s1, char *s2);
+
 
 int		ft_toupper(int c);
 int		ft_tolower(int c);

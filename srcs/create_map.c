@@ -27,14 +27,14 @@ void	check_first_and_last_line(char *line, t_map *map, int k)
 	map->width = i;
 }
 
-void	check_map_line(char *line, t_map *map)
+void	check_map_line(char *line, t_map *map, char *symbs)
 {
 	int	i;
 
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] != 'P' && line[i] != 'E' && line[i] != 'C' && line[i] != '1' && line[i] != '0')
+		if (ft_strchr(symbs, line[i]) == 0)
 			err_exit("Invalid map. Incorrect symbol", ERR_MAP);
 		if (line[i] == 'P')
 			map->P += 1;
@@ -42,6 +42,8 @@ void	check_map_line(char *line, t_map *map)
 			map->E += 1;
 		if (line[i] == 'C')
 			map->C += 1;
+		if (line[i] == 'V')
+			map->V += 1;
 		i++;
 	}
 	if (line[0] != '1' || line[--i] != '1')
@@ -68,13 +70,15 @@ void	create_map(char *map, t_map *map_s)
 	map_s->P = 0;
 	map_s->width = 0;
 	map_s->height = 0;
+	map_s->img_w = 32;
+	map_s->img_h = 32;
 	k = get_next_line(fd, &line);
 	check_first_and_last_line(line, map_s, 1);
 	while (k > 0)
 	{
 		ft_lstadd_back(&map_s->map_line, ft_lstnew((void*)line));
 		k = get_next_line(fd, &line);
-		check_map_line(line, map_s);
+		check_map_line(line, map_s, "01PCEV");
 	}
 	ft_lstadd_back(&map_s->map_line, ft_lstnew((void*)line));
 	check_first_and_last_line(line, map_s, 2);

@@ -17,6 +17,9 @@ void	data_mem(t_map *map)
 	map->floor = malloc(sizeof(t_data));
 	if (!map->floor)
 		err_exit("Malloc is dead / F", ERR_MALLOC);
+	map->enemy = malloc(sizeof(t_data));
+	if (!map->enemy)
+		err_exit("Malloc is dead / V", ERR_MALLOC);
 }
 
 void	init_img(t_map *map, char *file, void *img, char c)
@@ -26,7 +29,6 @@ void	init_img(t_map *map, char *file, void *img, char c)
 	int		h;
 	t_list	*line;
 
-	printf("%d %d\n", map->width, map->height);
 	h = 0;
 	line = map->map_line;
 	while (line)
@@ -37,13 +39,13 @@ void	init_img(t_map *map, char *file, void *img, char c)
 		{
 			if (((char *)line->content)[i] == c)
 			{
-				img = mlx_xpm_file_to_image(map->mlx, file, &map->width, &map->height);
+				img = mlx_xpm_file_to_image(map->mlx, file, &map->img_w, &map->img_h);
 				if (((char *)line->content)[i] == 'P')
 				{
 					map->x = i;
 					map->y = h;
 				}
-				mlx_put_image_to_window(map->mlx, map->win, img, i * 40, h * 40);
+				mlx_put_image_to_window(map->mlx, map->win, img, i * 32, h * 32);
 			}
 			i++;
 		}
@@ -56,16 +58,18 @@ void	print_map(t_map *map)
 {
 	data_mem(map);
 	map->mlx = mlx_init();
-	printf("%d %d\n", map->width, map->height);
-	map->win = mlx_new_window(map->mlx, map->width * 40, map->height * 40, "so_long");
-	init_img(map, PATH_PLAYER, map->player->img, 'P');
-	map->count = 0;
-	printf("Done\n");
+	printf("%d %d %d\n", map->width, map->height, map->C);
+	map->win = mlx_new_window(map->mlx, map->width * 32, map->height * 32, "so_long");
 	init_img(map, PATH_COIN, map->coin->img, 'C');
-	init_img(map, PATH_DR_C, map->door->img, 'E');
+	init_img(map, PATH_PLAYER, map->player->img, 'P');
+	printf("Done\n");
+	init_img(map, PATH_ENEMY, map->enemy->img, 'V');
+	map->count = 0;
+	init_img(map, PATH_DR_CLOSE, map->door->img, 'E');
 	init_img(map, PATH_FLOOR, map->floor->img, '0');
 	init_img(map, PATH_WALL, map->wall->img, '1');
 	mlx_hook(map->win, 2, 1L << 0, move, map);
+	mlx_loop_hook(map->mlx, coin, map);
 	mlx_hook(map->win, 17, 1L << 0, destroy, map);
 	mlx_loop(map->mlx);
 }

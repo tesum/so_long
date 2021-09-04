@@ -7,14 +7,12 @@ SRCS	=	srcs/main.c					\
 			srcs/create_map.c			\
 			srcs/print_map.c			\
 			srcs/utils.c				\
-			srcs/hook.c				\
-			gnl/get_next_line.c			\
-			gnl/get_next_line_utils.c	\
+			srcs/hook.c					\
 
 
 HEADER	=	include/so_long.h			\
-			include/get_next_line.h		\
 			include/libft.h				\
+			include/mlx.h				\
 
 OBJ		=	$(patsubst %.c, %.o, $(SRCS))
 
@@ -26,10 +24,12 @@ all		:	$(LIBFT) $(MLX) $(NAME)
 
 $(LIBFT):
 			$(MAKE) -C libft/
+			cp libft/libft.h ./include
 
 $(MLX)	:
 			$(MAKE) -C mlx/
 			cp $(MLX) ./
+			cp mlx/mlx.h ./include
 
 $(NAME)	:	$(OBJ) $(HEADER)
 			$(CC) $(MLX) $(LIBFT) -framework OpenGL -framework AppKit -o $(NAME) $(OBJ)
@@ -41,7 +41,7 @@ fclean	:	clean
 			$(RM) $(NAME)
 			$(MAKE) fclean -C libft/
 			$(MAKE) clean -C mlx/
-			$(RM) libmlx.dylib libft.a
+			$(RM) libmlx.dylib libft.a ./include/libft.h ./include/mlx.h
 
 re		:	fclean all
 
