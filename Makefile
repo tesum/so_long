@@ -8,6 +8,7 @@ SRCS	=	srcs/main.c					\
 			srcs/print_map.c			\
 			srcs/utils.c				\
 			srcs/hook.c					\
+			srcs/enemy.c				\
 
 
 HEADER	=	include/so_long.h			\
