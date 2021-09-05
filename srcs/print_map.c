@@ -31,7 +31,7 @@ void	init_img(t_map *map, char *file, t_data *img, char c)
 	h = 1;
 	line = map->map_line;
 	while (line)
-	{
+	{	
 		i = 0;
 		while (i < map->width)
 		{
@@ -40,7 +40,7 @@ void	init_img(t_map *map, char *file, t_data *img, char c)
 				img->img = MXFTI(map->mlx, file, &map->i_w, &map->i_h);
 				img->x = i;
 				img->y = h;
-				MPITW(map->mlx, map->win, img->img, i * 32, h * 32);
+				MPITW(map->mlx, map->win, img->img, img->x * 32, img->y * 32);
 				if (check_enemy(line, i))
 					return ;
 			}

@@ -10,7 +10,6 @@
 # define MPITW			mlx_put_image_to_window
 # define MXFTI			mlx_xpm_file_to_image
 
-
 # define PATH_PLAYER	"texture/player1.xpm"
 # define PATH_PLAYER2	"texture/player2.xpm"
 # define PATH_PLAYER3	"texture/player3.xpm"
