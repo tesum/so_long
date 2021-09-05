@@ -17,25 +17,25 @@ int	coin(t_map *map)
 void	print_player(t_map *map, int key)
 {
 	if (((char *)ch_line(map->map_line, map->y)->content)[map->x] == 'E')
-			print_img(map, PATH_PLAYER4, map->player->img, 'p');
+		print_img(map, PATH_PLAYER4, map->player, 'p');
 	else
 	{
 		if (map->count % 2 != 0)
 		{
 			if (key)
-				print_img(map, PATH_PLAYER3, map->player->img, 'p');
+				print_img(map, PATH_PLAYER3, map->player, 'p');
 			else
-				print_img(map, PATH_PLAYER2, map->player->img, 'p');
+				print_img(map, PATH_PLAYER2, map->player, 'p');
 		}
 		else
-			print_img(map, PATH_PLAYER, map->player->img, 'p');
+			print_img(map, PATH_PLAYER, map->player, 'p');
 	}
 }
 
 void	end_game(t_map *map, char *message)
 {
 	mlx_destroy_window(map->mlx, map->win);
-	printf("%s\n", message);
+	printf("%s\nStep count: %d\n", message, map->count);
 	exit(0);
 }
 
@@ -45,12 +45,18 @@ void	put_count(t_map *map)
 	int		j;
 	char	*c;
 
-	c = ft_strjoin("Count: ", ft_itoa(map->count));
+	c = ft_strjoin("Step count: ", ft_itoa(map->count));
+	if (map->C)
+		c = ft_strjoin(ft_strjoin(c, " Coin: "), ft_itoa(map->C));
+	else if (map->V)
+		c = ft_strjoin(c, " The door is open. Survive");
+	else
+		c = ft_strjoin(c, " The door is open.");
 	i = 0;
 	while (i < 32)
 	{
 		j = 0;
-		while (j < 200)
+		while (j < 500)
 		{
 			mlx_pixel_put(map->mlx, map->win, j, i, 00000);
 			j++;

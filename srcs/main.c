@@ -1,6 +1,6 @@
 #include "so_long.h"
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_map	*map;
 
@@ -13,5 +13,5 @@ int main(int argc, char **argv)
 	}
 	else
 		err_exit("Invalid args. Insert filename", ERR_ARGS);
-	return 0;
+	return (0);
 }

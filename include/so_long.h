@@ -7,6 +7,10 @@
 # define WIN_GAME		"\033[0;32mYou are win!"
 # define LOST_GAME		"\033[0;31mYou lost loser"
 
+# define MPITW			mlx_put_image_to_window
+# define MXFTI			mlx_xpm_file_to_image
+
+
 # define PATH_PLAYER	"texture/player1.xpm"
 # define PATH_PLAYER2	"texture/player2.xpm"
 # define PATH_PLAYER3	"texture/player3.xpm"
@@ -45,8 +49,8 @@ typedef struct s_map
 	int		count;
 	int		width;
 	int		height;
-	int		img_w;
-	int		img_h;
+	int		i_w;
+	int		i_h;
 	t_list	*map_line;
 	t_data	*player;
 	t_data	*enemy;
@@ -63,15 +67,16 @@ void	print_map(t_map *map);
 void	init_img(t_map *map, char *file, t_data *img, char c);
 
 // utils
+void	put_count(t_map *map);
 void	move_enemy(t_map *map);
 void	print_player(t_map *map, int key);
 void	end_game(t_map *map, char *message);
-void	print_img(t_map *map, char *file, void *img, char c);
+void	print_img(t_map *map, char *file, t_data *img, char c);
 int		destroy(void);
 int		coin(t_map *map);
 int		err_exit(char *str, int err);
 int		move(int keycode, t_map *img);
-void	put_count(t_map *map);
+int		check_enemy(t_list *line, int i);
 t_list	*ch_line(t_list *head, int y);
 
 

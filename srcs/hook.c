@@ -1,19 +1,20 @@
 #include "so_long.h"
 
-void	print_img(t_map *map, char *file, void *img, char c)
+void	print_img(t_map *map, char *file, t_data *img, char c)
 {
-	img = mlx_xpm_file_to_image(map->mlx, file, &map->width, &map->height);
+	img->img = mlx_xpm_file_to_image(map->mlx, file, &map->width, &map->height);
 	if (c == 'V')
-		mlx_put_image_to_window(map->mlx, map->win, img, map->enemy->x * 32, map->enemy->y * 32);
+		mlx_put_image_to_window(map->mlx, map->win, \
+			img->img, img->x * 32, img->y * 32);
 	else
-		mlx_put_image_to_window(map->mlx, map->win, img, map->x * 32, map->y * 32);
-
+		mlx_put_image_to_window(map->mlx, map->win, \
+			img->img, map->x * 32, map->y * 32);
 }
 
 t_list	*ch_line(t_list *head, int y)
 {
 	int		i;
-	t_list *line;
+	t_list	*line;
 
 	i = 1;
 	line = head;
@@ -26,23 +27,23 @@ static void	change_pos(t_map *map, int x, int y, int key)
 {
 	char	*coord;
 
-	coord = ((char *)ch_line(map->map_line, map->y+y)->content);
-	if (coord[map->x+x] != '1')
+	coord = ((char *)ch_line(map->map_line, map->y + y)->content);
+	if (coord[map->x + x] != '1')
 	{
-		if (coord[map->x+x] == 'E' && map->C == 0)
+		if (coord[map->x + x] == 'E' && map->C == 0)
 			end_game(map, WIN_GAME);
-		if (map->x+x == map->enemy->x && map->y+y == map->enemy->y)
+		if (map->x + x == map->enemy->x && map->y + y == map->enemy->y)
 			end_game(map, LOST_GAME);
-		if (coord[map->x+x] == 'C')
+		if (coord[map->x + x] == 'C')
 		{
 			map->C -= 1;
-			coord[map->x+x] = '0';
+			coord[map->x + x] = '0';
 		}
 		map->count += 1;
 		if (((char *)ch_line(map->map_line, map->y)->content)[map->x] != 'E')
-			print_img(map, PATH_FLOOR, map->floor->img, 'f');
+			print_img(map, PATH_FLOOR, map->floor, 'f');
 		if (((char *)ch_line(map->map_line, map->y)->content)[map->x] == 'E')
-			print_img(map, PATH_DR_CLOSE, map->door->img, 'd');
+			print_img(map, PATH_DR_CLOSE, map->door, 'd');
 		map->x += x;
 		map->y += y;
 		print_player(map, key);

@@ -17,14 +17,13 @@ void	data_mem(t_map *map)
 	map->floor = malloc(sizeof(t_data));
 	if (!map->floor)
 		err_exit("Malloc is dead / F", ERR_MALLOC);
-	map->enemy = malloc(sizeof(t_data));
+	map->enemy = malloc(sizeof(t_data) * map->V);
 	if (!map->enemy)
 		err_exit("Malloc is dead / V", ERR_MALLOC);
 }
 
 void	init_img(t_map *map, char *file, t_data *img, char c)
 {
-	int		len;
 	int		i;
 	int		h;
 	t_list	*line;
@@ -34,15 +33,16 @@ void	init_img(t_map *map, char *file, t_data *img, char c)
 	while (line)
 	{
 		i = 0;
-		len = map->width;
-		while (len--)
+		while (i < map->width)
 		{
 			if (((char *)line->content)[i] == c)
 			{
-				img->img = mlx_xpm_file_to_image(map->mlx, file, &map->img_w, &map->img_h);
+				img->img = MXFTI(map->mlx, file, &map->i_w, &map->i_h);
 				img->x = i;
 				img->y = h;
-				mlx_put_image_to_window(map->mlx, map->win, img->img, i * 32, h * 32);
+				MPITW(map->mlx, map->win, img->img, i * 32, h * 32);
+				if (check_enemy(line, i))
+					return ;
 			}
 			i++;
 		}
@@ -53,12 +53,17 @@ void	init_img(t_map *map, char *file, t_data *img, char c)
 
 void	print_map(t_map *map)
 {
+	int	i;
+
+	i = -1;
 	data_mem(map);
 	map->mlx = mlx_init();
-	map->win = mlx_new_window(map->mlx, map->width * 32, map->height * 36, "so_long");
+	map->win = mlx_new_window(map->mlx, map->width * 32, \
+		(map->height + 1) * 32, "so_long");
 	init_img(map, PATH_COIN, map->coin, 'C');
 	init_img(map, PATH_PLAYER, map->player, 'P');
-	init_img(map, PATH_ENEMY, map->enemy, 'V');
+	while (++i < map->V)
+		init_img(map, PATH_ENEMY, &map->enemy[i], 'V');
 	map->count = 0;
 	init_img(map, PATH_DR_CLOSE, map->door, 'E');
 	init_img(map, PATH_FLOOR, map->floor, '0');
