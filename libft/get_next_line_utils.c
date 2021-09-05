@@ -6,7 +6,7 @@
 /*   By: arsenijdrozdov <arsenijdrozdov@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/23 14:00:24 by demilan           #+#    #+#             */
-/*   Updated: 2021/09/04 19:55:58 by arsenijdroz      ###   ########.fr       */
+/*   Updated: 2021/09/05 12:01:30 by arsenijdroz      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i] != '\0')
 		i++;
 	return (i);
-}
-
-void	*ft_memcpy(void *dst, const void *src, size_t n)
-{
-	size_t			i;
-	unsigned char	*sr;
-	unsigned char	*d;
-
-	if (dst == NULL && src == NULL)
-		return (0);
-	d = (unsigned char *)dst;
-	sr = (unsigned char *)src;
-	i = 0;
-	while (n > i)
-	{
-		d[i] = sr[i];
-		i++;
-	}
-	return (d);
 }
 
 char	*ft_strjoin_gnl(char *s1, char *s2)

@@ -15,7 +15,7 @@ t_list	*ch_line(t_list *head, int y)
 	int		i;
 	t_list *line;
 
-	i = 0;
+	i = 1;
 	line = head;
 	while (i++ < y)
 		line = line->next;
@@ -47,6 +47,7 @@ static void	change_pos(t_map *map, int x, int y, int key)
 		map->y += y;
 		print_player(map, key);
 		move_enemy(map);
+		put_count(map);
 	}
 }
 

@@ -29,7 +29,7 @@ void	init_img(t_map *map, char *file, t_data *img, char c)
 	int		h;
 	t_list	*line;
 
-	h = 0;
+	h = 1;
 	line = map->map_line;
 	while (line)
 	{
@@ -55,7 +55,7 @@ void	print_map(t_map *map)
 {
 	data_mem(map);
 	map->mlx = mlx_init();
-	map->win = mlx_new_window(map->mlx, map->width * 32, map->height * 32, "so_long");
+	map->win = mlx_new_window(map->mlx, map->width * 32, map->height * 36, "so_long");
 	init_img(map, PATH_COIN, map->coin, 'C');
 	init_img(map, PATH_PLAYER, map->player, 'P');
 	init_img(map, PATH_ENEMY, map->enemy, 'V');

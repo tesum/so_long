@@ -71,6 +71,7 @@ int		destroy(void);
 int		coin(t_map *map);
 int		err_exit(char *str, int err);
 int		move(int keycode, t_map *img);
+void	put_count(t_map *map);
 t_list	*ch_line(t_list *head, int y);
 
 

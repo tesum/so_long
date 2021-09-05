@@ -1,4 +1,4 @@
-#include "../include/so_long.h"
+#include "so_long.h"
 
 void	check_name(char *map)
 {
@@ -55,6 +55,17 @@ void	check_map_line(char *line, t_map *map, char *symbs)
 	map->height += 1;
 }
 
+void	init_map(t_map *map_s)
+{
+	map_s->C = 0;
+	map_s->E = 0;
+	map_s->P = 0;
+	map_s->width = 0;
+	map_s->height = 0;
+	map_s->img_w = 32;
+	map_s->img_h = 32;
+}
+
 void	create_map(char *map, t_map *map_s)
 {
 	int		fd;
@@ -65,13 +76,7 @@ void	create_map(char *map, t_map *map_s)
 	fd = open(map, O_RDONLY);
 	if (fd == 0)
 		err_exit("Invalid map", ERR_MAP);
-	map_s->C = 0;
-	map_s->E = 0;
-	map_s->P = 0;
-	map_s->width = 0;
-	map_s->height = 0;
-	map_s->img_w = 32;
-	map_s->img_h = 32;
+	init_map(map_s);
 	k = get_next_line(fd, &line);
 	check_first_and_last_line(line, map_s, 1);
 	while (k > 0)
